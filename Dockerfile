@@ -1,4 +1,4 @@
-FROM python:3.7-alpine
+FROM python:3.7-buster
 
 RUN pip install pipenv==2018.11.26
 
