@@ -10,5 +10,6 @@ RUN pipenv install --system --deploy
 
 COPY app.py /app
 
-ENV PORT 80
-CMD ["gunicorn", "-b", ":$PORT", "--access-logfile", "-", "--error-logfile", "-", "app:app"]
+EXPOSE 80
+
+CMD ["gunicorn", "-b", ":80", "--access-logfile", "-", "--error-logfile", "-", "app:app"]
