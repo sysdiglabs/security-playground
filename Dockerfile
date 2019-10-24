@@ -12,4 +12,4 @@ COPY app.py /app
 
 EXPOSE 80
 
-CMD ["gunicorn", "-b", ":80", "--access-logfile", "-", "--error-logfile", "-", "app:app"]
+CMD ["gunicorn", "-b", ":80", "--workers", "2", "--threads", "4", "--worker-class", "gthread", "--access-logfile", "-", "--error-logfile", "-", "app:app"]
