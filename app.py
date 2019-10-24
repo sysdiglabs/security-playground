@@ -24,11 +24,9 @@ def write(file_to_write):
 @app.route('/exec', methods=['POST'])
 def exec():
     command = [request.values['command']]
-    args = request.values.get('args', '')
-    if args:
-        command.extend(args.split(' '))
 
-    process = subprocess.run(command, capture_output=True)
+    process = subprocess.run(command, shell=True, capture_output=True)
+
     return process.stdout
 
 
