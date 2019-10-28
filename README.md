@@ -33,7 +33,7 @@ This will return the content of the /etc/shadow file.
 You can write to a file using the URL and POSTing the content.
 
 ```bash
-# curl -X POST localhost:8080/bin/hello -d 'content=hello-world'
+$ curl -X POST localhost:8080/bin/hello -d 'content=hello-world'
 ```
 
 This will write to /bin/hello the hello-world string
