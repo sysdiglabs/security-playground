@@ -10,8 +10,8 @@ run time.
 Use the docker image to deploy it in your Kubernetes cluster or locally in a
 container.
 
-```
-docker run --rm -p 8080:80 sysdiglabs/security-playground
+```bash
+$ docker run --rm -p 8080:80 sysdiglabs/security-playground
 ```
 
 ## Usage
