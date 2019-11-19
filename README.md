@@ -18,7 +18,7 @@ $ docker run --rm -p 8080:80 sysdiglabs/security-playground
 
 The HTTP API exposes tree endpoints to interact with the system.
 
-# Reading a file
+### Reading a file
 
 You can read a file using just the URL.
 
@@ -28,7 +28,7 @@ $ curl localhost:8080/etc/shadow
 
 This will return the content of the /etc/shadow file.
 
-# Writing a file
+### Writing a file
 
 You can write to a file using the URL and POSTing the content.
 
