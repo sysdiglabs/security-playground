@@ -11,7 +11,7 @@ Use the docker image to deploy it in your Kubernetes cluster or locally in a
 container.
 
 ```bash
-$ docker run --rm -p 8080:80 sysdiglabs/security-playground
+$ docker run --rm -p 8080:8080 sysdiglabs/security-playground
 ```
 
 ## Usage
