@@ -8,4 +8,6 @@ RUN pip3 install -r requirements.txt
 
 EXPOSE 8080
 
+USER nobody
+
 CMD ["gunicorn", "-b", ":8080", "--workers", "2", "--threads", "4", "--worker-class", "gthread", "--access-logfile", "-", "--error-logfile", "-", "app:app"]
