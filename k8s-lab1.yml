@@ -48,6 +48,7 @@ spec:
   - port: 80
     protocol: TCP
     targetPort: 8080
+    nodePort: 30000
   selector:
     app: security-playground
   type: NodePort
