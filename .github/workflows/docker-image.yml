@@ -1,0 +1,34 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+
+env:
+  SYSDIG_URL: https://app.au1.sysdig.com
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  BYPASS_SCAN_FAIL: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.run_number }} --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+    
+    - name: Sysdig Secure Inline Scan - New
+      run: |
+        curl -LO "https://download.sysdig.com/scanning/bin/sysdig-cli-scanner/$(curl -L -s https://download.sysdig.com/scanning/sysdig-cli-scanner/latest_version.txt)/linux/amd64/sysdig-cli-scanner"
+        chmod +x ./sysdig-cli-scanner
+        SECURE_API_TOKEN=${{ secrets.SECURE_API_TOKEN }} ./sysdig-cli-scanner --apiurl ${{env.SYSDIG_URL}} docker://${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.run_number }} || ${{ env.BYPASS_SCAN_FAIL }}
+      
+    - name: Log in to the Container registry
+      run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ${{ env.REGISTRY }}
+    
+    - name: Push the Docker image
+      run: docker push -a ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
