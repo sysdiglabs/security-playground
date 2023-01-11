@@ -42,6 +42,8 @@ spec:
           value: "postgres"
         ports:
         - containerPort: 8080
+        securityContext:
+          privileged: true
 
 ---
 apiVersion: v1

