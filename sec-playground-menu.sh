@@ -1,7 +1,7 @@
 #!/bin/bash
 
-read -p "What is the http address of your target? [http://192.168.1.59]: "  sec_playground_url
-sec_playground_url=${sec_playground_url:-http://192.168.1.59}
+read -p "What is the http address of your target? [http://192.168.1.15]: "  sec_playground_url
+sec_playground_url=${sec_playground_url:-http://192.168.1.15}
 
 printy() {
   printf "\e[33;1m%s\n" "$1"

@@ -32,7 +32,7 @@ spec:
                   - amd64
       containers:
       - name: security-playground
-        image: fernii/security-playground:2.0-root
+        image: ghcr.io/andrewd-sysdig/security-playground:latest
         env:
         - name: PGHOST
           value: "appdb"

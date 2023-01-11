@@ -32,7 +32,7 @@ spec:
                   - amd64
       containers:
       - name: security-playground-user
-        image: fernii/security-playground:2.0-user
+        image: ghcr.io/andrewd-sysdig/security-playground:user-latest
         ports:
         - containerPort: 8080
 

@@ -36,7 +36,7 @@ spec:
           sizeLimit: 50Mi
       containers:
       - name: security-playground-readonlyfs
-        image: fernii/security-playground:2.0-user
+        image: ghcr.io/andrewd-sysdig/security-playground:user-latest
         volumeMounts:
         - mountPath: /usr/tmp
           name: temp-volume
