@@ -20,8 +20,8 @@ jobs:
     
     - name: Build the Docker image
       run: |
-        docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.run_number }} --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-        docker build . --file Dockerfile.user --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:user-${{ github.run_number }} --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:user-latest
+        docker build ./src --file src/Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.run_number }} --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+        docker build ./src --file src/Dockerfile.user --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:user-${{ github.run_number }} --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:user-latest
     
     - name: Sysdig Secure Inline Scan - New
       run: |
