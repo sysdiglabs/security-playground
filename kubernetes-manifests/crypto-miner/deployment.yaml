@@ -1,13 +1,7 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: secplay
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: security-playground
-  namespace: secplay
   labels:
     app: security-playground
 spec:
@@ -32,22 +26,23 @@ spec:
       containers:
       - name: security-playground
         image: ghcr.io/andrewd-sysdig/security-playground:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
-        securityContext:
-          privileged: true
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     app: security-playground
-  name: secplay
+  name: security-playground
 spec:
   ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 8080
+    - port: 80
+      protocol: TCP
+      targetPort: 8080
+      nodePort: 30000
   selector:
     app: security-playground
-  type: LoadBalancer
+  type: NodePort
