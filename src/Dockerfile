@@ -5,6 +5,7 @@ WORKDIR /app
 COPY requirements.txt app.py /app/
 
 RUN pip3 install -r requirements.txt
+RUN pip3 uninstall setuptools -y
 
 EXPOSE 8080
 
