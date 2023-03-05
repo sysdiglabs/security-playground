@@ -1,13 +1,7 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: secplay
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: security-playground
-  namespace: secplay
   labels:
     app: security-playground
 spec:
