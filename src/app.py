@@ -17,19 +17,19 @@ def write(file_to_write):
     content = request.values['content']
     with open('/' + file_to_write, 'w') as f:
         f.write(content)
-
     return content
 
 
 @app.route('/exec', methods=['POST'])
 def exec():
     command = [request.values['command']]
-
-    process = subprocess.run(command, shell=True, capture_output=True)
-
+    process = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     return process.stdout
 
 
 @app.route('/health', methods=['GET'])
 def health():
     return 'OK'
+
+if __name__ == "__main__":
+    app.run()

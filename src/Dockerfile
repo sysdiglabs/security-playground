@@ -1,14 +1,10 @@
-FROM python:3.7-buster
-
-RUN pip install pipenv==2018.11.26
+FROM python:3.9-buster
 
 WORKDIR /app
 
-COPY Pipfile /app
-COPY Pipfile.lock /app
-RUN pipenv install --system --deploy
+COPY requirements.txt app.py /app/
 
-COPY app.py /app
+RUN pip3 install -r requirements.txt
 
 EXPOSE 8080
 

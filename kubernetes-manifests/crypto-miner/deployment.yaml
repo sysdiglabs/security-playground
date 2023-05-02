@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: security-playground
+  labels:
+    app: security-playground
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: security-playground
+  template:
+    metadata:
+      labels:
+        app: security-playground
+    spec:
+      affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: In
+                  values:
+                  - amd64
+      containers:
+      - name: security-playground
+        image: ghcr.io/andrewd-sysdig/security-playground:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: security-playground
+  name: security-playground
+spec:
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 8080
+      nodePort: 30000
+  selector:
+    app: security-playground
+  type: NodePort
