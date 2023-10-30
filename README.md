@@ -43,7 +43,13 @@ This will write to /bin/hello the hello-world string
 You can execute a command using the /exec endpoint and POSTing the command.
 
 ```bash
-$ curl -X POST /exec -d 'command=ls -la'
+$ curl -X POST localhost:8080/exec -d 'command=ls -la'
+```
+
+or
+
+```bash
+$ curl -X POST localhost:8080/exec -d 'command=chmod 0755 /bin/hello'
 ```
 
 This will capture and return the STDOUT of the command executed.
