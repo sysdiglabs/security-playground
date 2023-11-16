@@ -13,6 +13,13 @@ container.
 ```bash
 $ docker run --rm -p 8080:8080 sysdiglabs/security-playground
 ```
+Or kubernetes
+```bash
+    # Test workload security-playground 
+    kubectl create deployment playground --image=manuelbcd/security-playground:1.0.6
+    #skubectl expose deployment playground --name=playground --type=NodePort --port=80 --target-port=8080
+    kubectl expose deployment playground --port=80 --target-port=8080 --name=playground --type=LoadBalancer
+```
 
 ## Usage
 
