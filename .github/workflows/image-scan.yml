@@ -18,10 +18,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Build the Docker image
-      # Tag image to be built
-      # Change ${{ github.repository }} variable by another image name if you want but don't forget changing also image-tag below
-      run: docker build . --file Dockerfile --tag ${{ github.repository }}:latest
+    # Image is already published in dockerhub
 
     - name: Download SCA Resolver
       run: |
@@ -35,16 +32,6 @@ jobs:
 
     - name: Run Checkmarx One CLI Scan
       run: |
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        /home/linuxbrew/.linuxbrew/bin/brew install checkmarx/ast-cli/ast-cli
-        /home/linuxbrew/.linuxbrew/Cellar/ast-cli/*/bin/cx \
-          scan create \
-          -s . \
-          --agent GitHub \
-          --project-name ${{ github.repository }} \
-          --branch ${GITHUB_REF##*/} \
-          --base-uri ${{ secrets.CX_BASE_URI }} \
-          --tenant ${{ secrets.CX_TENANT }} \
-          --client-id ${{ secrets.CX_CLIENT_ID }} \
-          --client-secret ${{ secrets.CX_CLIENT_SECRET }} \
-          --sca-resolver ./ScaResolver
+        ./ScaResolver -s /Users/DemoUser/scan_ecr_image -n DemoImageScan \
+          -a Checkmarx -u jack -p '${{ secrets.CHECKMARX_PASSWORD }}' \
+          --scan-containers --images “manuelbcd/security-playground:1.0.6”
