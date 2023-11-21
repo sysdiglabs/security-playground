@@ -1,0 +1,50 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Sysdig - Build, scan, push and upload sarif report
+
+on: workflow_dispatch
+
+permissions:
+  contents: read
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build the Docker image
+      # Tag image to be built
+      # Change ${{ github.repository }} variable by another image name if you want but don't forget changing also image-tag below
+      run: docker build . --file Dockerfile --tag ${{ github.repository }}:latest
+
+    - name: Download SCA Resolver
+      run: |
+        wget https://sca-downloads.s3.amazonaws.com/cli/latest/ScaResolver-linux64.tar.gz
+        tar -xzvf ScaResolver-linux64.tar.gz
+        rm -rf ScaResolver-linux64.tar.gz
+
+    - name: Install Maven, NPM, ... # Add any necessary package management
+      run: |
+        sudo apt install maven npm
+
+    - name: Run Checkmarx One CLI Scan
+      run: |
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        /home/linuxbrew/.linuxbrew/bin/brew install checkmarx/ast-cli/ast-cli
+        /home/linuxbrew/.linuxbrew/Cellar/ast-cli/*/bin/cx \
+          scan create \
+          -s . \
+          --agent GitHub \
+          --project-name ${{ github.repository }} \
+          --branch ${GITHUB_REF##*/} \
+          --base-uri ${{ secrets.CX_BASE_URI }} \
+          --tenant ${{ secrets.CX_TENANT }} \
+          --client-id ${{ secrets.CX_CLIENT_ID }} \
+          --client-secret ${{ secrets.CX_CLIENT_SECRET }} \
+          --sca-resolver ./ScaResolver
