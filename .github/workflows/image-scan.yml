@@ -33,5 +33,5 @@ jobs:
     - name: Run Checkmarx One CLI Scan
       run: |
         ./ScaResolver -s /Users/DemoUser/scan_ecr_image -n DemoImageScan \
-          -a Checkmarx -u jack -p '${{ secrets.CHECKMARX_PASSWORD }}' \
+          -a Checkmarx -u ${{ secrets.CHECKMARX_USER }} -p '${{ secrets.CHECKMARX_PASSWORD }}' \
           --scan-containers --images “manuelbcd/security-playground:1.0.6”
