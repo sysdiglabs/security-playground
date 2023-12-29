@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: client-cronjob
+spec:
+  schedule: "*/5 * * * *"  # This schedule runs every 5 minutes
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: client
+            image: tester-client
+            args:
+            - "--server-url"
+            - "http://<server-service-name>.<namespace>.svc.cluster.local/api/data"
+          restartPolicy: OnFailure
