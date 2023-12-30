@@ -1,7 +1,5 @@
 # Security Playground
 
-![last commit](https://flat.badgen.net/github/last-commit/sysdiglabs/security-playground?icon=github) ![licence](https://flat.badgen.net/github/license/sysdiglabs/security-playground) ![docker pulls](https://flat.badgen.net/docker/pulls/sysdiglabs/security-playground?icon=docker)
-
 The security playground is a HTTP web server to simulate security breaches in
 run time.
 
@@ -17,9 +15,17 @@ Or kubernetes
 ```bash
 # Test workload security-playground 
 kubectl create deployment playground --image=manuelbcd/security-playground:1.0.6
-#skubectl expose deployment playground --name=playground --type=NodePort --port=80 --target-port=8080
+
+# Expose workload with an LB
 kubectl expose deployment playground --port=80 --target-port=8080 --name=playground --type=LoadBalancer
+# or
+# Expose workload via ClusterIP
+# kubectl expose deployment playground --port=80 --target-port=8080 --name=playground --type=ClusterIP
 ```
+
+
+
+
 
 ## Usage
 
@@ -60,3 +66,7 @@ $ curl -X POST localhost:8080/exec -d 'command=chmod 0755 /bin/hello'
 ```
 
 This will capture and return the STDOUT of the command executed.
+
+# Sample scenario
+
+https://github.com/sysdig-workshops/aws-workshops-resources/blob/main/offensive/attack-playground.md

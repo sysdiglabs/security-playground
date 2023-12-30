@@ -3,6 +3,7 @@ import requests
 import argparse
 
 def send_request(url):
+    print("Sending HTTP Request")
     try:
         response = requests.get(url)
         print(f"Response from {url}:")
@@ -11,6 +12,7 @@ def send_request(url):
         print(f"Error making request to {url}: {e}")
 
 def main():
+    print("Starting Tester-Client Application")
     parser = argparse.ArgumentParser(description="Simple HTTP Client")
     parser.add_argument('url', type=str, help='URL to send the HTTP request to')
     

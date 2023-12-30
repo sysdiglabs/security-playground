@@ -10,8 +10,8 @@ spec:
         spec:
           containers:
           - name: client
-            image: tester-client
+            image: manuelbcd/test-client:1.1
+            imagePullPolicy: Always
             args:
-            - "--server-url"
-            - "http://<server-service-name>.<namespace>.svc.cluster.local/api/data"
+            - "http://playground:80/etc/shadow"
           restartPolicy: OnFailure
