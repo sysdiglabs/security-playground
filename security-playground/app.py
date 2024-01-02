@@ -5,7 +5,6 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-
 @app.route('/<path:file_to_read>', methods=['GET'])
 def read(file_to_read):
     with open('/' + file_to_read, 'r') as f:
