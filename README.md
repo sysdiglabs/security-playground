@@ -2,17 +2,18 @@
 
 ![last commit](https://flat.badgen.net/github/last-commit/sysdiglabs/security-playground?icon=github) ![licence](https://flat.badgen.net/github/license/sysdiglabs/security-playground) ![docker pulls](https://flat.badgen.net/docker/pulls/sysdiglabs/security-playground?icon=docker)
 
-The security playground is a HTTP web server to simulate security breaches in
-run time.
+The security playground is an HTTP web server to simulate security breaches. It allows you to read, write, and execute commands in a containerized environment.
 
 ## Installation
 
-Use the docker image to deploy it in your Kubernetes cluster or locally in a
-container.
+Deploy the docker image in your environment. 
 
 ```bash
 $ docker run --rm -p 8080:8080 sysdiglabs/security-playground
 ```
+
+Setup the health check to the `/health` endpoint if required.
+
 
 ## Usage
 
@@ -40,10 +41,10 @@ This will write to /bin/hello the hello-world string
 
 ### Executing a command
 
-You can execute a command using the /exec endpoint and POSTing the command.
+You can execute a command using the `/exec` endpoint and POSTing the command.
 
 ```bash
-$ curl -X POST /exec -d 'command=ls -la'
+$ curl -X POST localhost:8080/exec -d 'command=ls -la'
 ```
 
-This will capture and return the STDOUT of the command executed.
+This will capture and return the STDOUT of the executed command.

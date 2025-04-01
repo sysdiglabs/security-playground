@@ -1,5 +1,5 @@
 [[source]]
-url = "https://pypi.python.org/simple"
+url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
@@ -10,4 +10,4 @@ gunicorn = "*"
 [dev-packages]
 
 [requires]
-python_version = "3.7"
+python_version = "3.9"
