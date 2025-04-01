@@ -34,7 +34,7 @@ The application provides endpoints for:
 
 ### Health checks
 
-The health check endpoint is `/health` on port `8080` and returns the `200` HTTP status code.
+The health check endpoint is `<URL>:8080/health` on port `8080` and returns the `200` HTTP status code.
 
 
 ### Reading a file
