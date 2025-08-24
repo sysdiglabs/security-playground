@@ -19,7 +19,7 @@ Deploy the docker image in your environment, and setup the probe health check to
 You can also run the image locally:
 
 ```bash
-$ docker run --rm -p 8080:8080 sysdiglabs/security-playground
+$ docker run --rm -p 8081:8080 sysdiglabs/security-playground
 ```
 
 
@@ -42,13 +42,13 @@ The health check endpoint is `/health` on port `8080` and returns the `200` HTTP
 You can retrieve a file's contents by sending a `GET` request to the application's URL.
 
 ```bash
-$ curl <URL>:8080/<PATH>
+$ curl <URL>:8081/<PATH>
 ```
 
 For example:
 
 ```bash
-$ curl localhost:8080/etc/shadow
+$ curl localhost:8081/etc/shadow
 ```
 
 This will return the content of the `/etc/shadow` file in the container running locally.
@@ -60,13 +60,13 @@ This will return the content of the `/etc/shadow` file in the container running 
 You can write data to a file by sending a `POST` request to the application's URL with the desired content.
 
 ```bash
-$ curl -X POST <URL>:8080/<PATH> -d 'content=<CONTENT>'
+$ curl -X POST <URL>:8081/<PATH> -d 'content=<CONTENT>'
 ```
 
 For example:
 
 ```bash
-$ curl -X POST localhost:8080/bin/hello -d 'content=hello-world'
+$ curl -X POST localhost:8081/bin/hello -d 'content=hello-world'
 ```
 
 This command writes the string hello-world to /bin/hello.
@@ -78,13 +78,13 @@ This command writes the string hello-world to /bin/hello.
 To execute a command, send a `POST` request to the `/exec` endpoint with the command as the payload.
 
 ```bash
-$ curl -X POST <URL>:8080/exec -d 'command=<CMD>'
+$ curl -X POST <URL>:8081/exec -d 'command=<CMD>'
 ```
 
 For example:
 
 ```bash
-$ curl -X POST localhost:8080/exec -d 'command=ls'
+$ curl -X POST localhost:8081/exec -d 'command=ls'
 ```
 
 This will run the command and return its STDOUT output.

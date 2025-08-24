@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: sc-deployment
+  labels:
+    app: securitycheck
+    namespace: dev
+spec:
+ replicas: 3
+ template: 
+  metadata:
+    name: sc-pod
+    labels:
+     app: securitycheck
+  spec:
+   containers:
+     - name: sc-container
+       image: us-central1-docker.pkg.dev/secure-air-461520-g7/juneserver/security-playground
+ selector:
+  matchLabels:
+    app: securitycheck

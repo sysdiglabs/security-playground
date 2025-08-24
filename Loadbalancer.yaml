@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+ name: sc-loadbalancer
+ namespace: dev
+ labels:
+   app: securitycheck
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 8081
+  selector:
+    app: securitycheck
